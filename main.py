@@ -3,7 +3,7 @@ from tasks import (
     extract_recent_logs, index_markdown_titles, extract_email_sender,
     extract_credit_card, find_similar_comments, compute_gold_sales
 )
-from phase_b_tasks import (
+from phaseB_tasks import (
     fetch_data_from_api, clone_and_commit, run_sql_query, scrape_website
 )
 
