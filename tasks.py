@@ -1,3 +1,8 @@
+import os
+import openai
+
+openai.api_key = os.getenv("AIRPOXY_TOKEN")
+
 # Task A2: Format Markdown files using Prettier
 import subprocess
 
