@@ -1,3 +1,9 @@
+from tasks import (
+    format_markdown, count_wednesdays, sort_contacts,
+    extract_recent_logs, index_markdown_titles, extract_email_sender,
+    extract_credit_card, find_similar_comments, compute_gold_sales
+)
+
 from fastapi import FastAPI, HTTPException
 import os
 
@@ -5,7 +11,27 @@ app = FastAPI()
 
 @app.post("/run")
 async def run_task(task: str):
-    return {"message": f"Executing task: {task}"}
+    task_map = {
+        "format_markdown": format_markdown,
+        "count_wednesdays": count_wednesdays,
+        "sort_contacts": sort_contacts,
+        "extract_recent_logs": extract_recent_logs,
+        "index_markdown_titles": index_markdown_titles,
+        "extract_email_sender": extract_email_sender,
+        "extract_credit_card": extract_credit_card,
+        "find_similar_comments": find_similar_comments,
+        "compute_gold_sales": compute_gold_sales
+    }
+
+    if task in task_map:
+        result = task_map[task]()
+        return {"message": result}
+    
+    return {"error": "Unknown task"}
+
+# @app.post("/run")
+# async def run_task(task: str):
+#     return {"message": f"Executing task: {task}"}
 
 @app.get("/read")
 async def read_file(path: str):
