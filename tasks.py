@@ -44,7 +44,7 @@ import os
 
 def extract_recent_logs():
     """Writes the first line of the 10 most recent .log files in /data/logs/ to /data/logs-recent.txt."""
-    log_dir = r"C:\Users\aakan\tds-project1\tds-project1\data\logs\"
+    log_dir = r"C:\Users\aakan\tds-project1\tds-project1\data\logs\\"
     log_files = sorted(
         [f for f in os.listdir(log_dir) if f.endswith(".log")],
         key=lambda x: os.path.getmtime(os.path.join(log_dir, x)),
@@ -65,7 +65,7 @@ import re
 def index_markdown_titles():
     """Creates index.json mapping filenames to their first H1 title."""
     index = {}
-    docs_dir = r"C:\Users\aakan\tds-project1\tds-project1\data\docs\"
+    docs_dir = r"C:\Users\aakan\tds-project1\tds-project1\data\docs\\"
 
     for file in os.listdir(docs_dir):
         if file.endswith(".md"):
