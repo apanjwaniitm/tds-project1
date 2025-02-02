@@ -1,3 +1,13 @@
+name: Run Tasks with API Key
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,8 +24,8 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run Python script
-        run: |
-          python your_script.py
+      - name: Run the Python script
         env:
-          AIPROXY_TOKEN: ${{ secrets.AIPROXY_TOKEN }}  # Use the secret in your environment variable
+          AIPROXY_TOKEN: ${{ secrets.AIPROXY_TOKEN }}  # Access GitHub secret
+        run: |
+          python tasks.py
