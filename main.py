@@ -3,6 +3,9 @@ from tasks import (
     extract_recent_logs, index_markdown_titles, extract_email_sender,
     extract_credit_card, find_similar_comments, compute_gold_sales
 )
+from phase_b_tasks import (
+    fetch_data_from_api, clone_and_commit, run_sql_query, scrape_website
+)
 
 from fastapi import FastAPI, HTTPException
 import os
@@ -20,7 +23,11 @@ async def run_task(task: str):
         "extract_email_sender": extract_email_sender,
         "extract_credit_card": extract_credit_card,
         "find_similar_comments": find_similar_comments,
-        "compute_gold_sales": compute_gold_sales
+        "compute_gold_sales": compute_gold_sales,
+        "fetch_data_from_api": fetch_data_from_api,
+        "clone_and_commit": clone_and_commit,
+        "run_sql_query": run_sql_query,
+        "scrape_website": scrape_website
     }
 
     if task in task_map:
@@ -28,10 +35,6 @@ async def run_task(task: str):
         return {"message": result}
     
     return {"error": "Unknown task"}
-
-# @app.post("/run")
-# async def run_task(task: str):
-#     return {"message": f"Executing task: {task}"}
 
 @app.get("/read")
 async def read_file(path: str):
