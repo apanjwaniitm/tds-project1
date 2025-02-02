@@ -58,19 +58,3 @@ async def run_delete_task(path: str):
         return {"message": "File deletion blocked"}
     except PermissionError as e:
         raise HTTPException(status_code=403, detail=str(e))
-
-@app.post("/process")
-async def run_process_task(path: str):
-    try:
-        result = process_data(path)
-        return {"message": "File processed successfully", "data": result}
-    except PermissionError as e:
-        raise HTTPException(status_code=403, detail=str(e))
-
-@app.post("/delete")
-async def run_delete_task(path: str):
-    try:
-        delete_data(path)
-        return {"message": "File deletion blocked"}
-    except PermissionError as e:
-        raise HTTPException(status_code=403, detail=str(e))
