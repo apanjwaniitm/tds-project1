@@ -4,7 +4,7 @@ from tasks import (
     extract_credit_card, find_similar_comments, compute_gold_sales
 )
 from phaseB_tasks import (
-    fetch_data_from_api, clone_and_commit, run_sql_query, scrape_website
+    process_data, delete_data, fetch_data_from_api, clone_and_commit, run_sql_query, scrape_website
 )
 
 from fastapi import FastAPI, HTTPException
