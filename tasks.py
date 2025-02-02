@@ -14,10 +14,24 @@ import datetime
 
 def count_wednesdays():
     """Counts the number of Wednesdays in /data/dates.txt and writes the result to /data/dates-wednesdays.txt."""
-    with open(r"C:\Users\aakan\tds-project1\data\dates.txt", "r") as f:
+    with open(r"C:\Users\aakan\tds-project1\tds-project1\data\dates.txt", "r") as f:
         dates = f.readlines()
     
-    count = sum(1 for date in dates if datetime.datetime.strptime(date.strip(), "%Y-%m-%d").weekday() == 2)
+    count = 0
+    for date in dates:
+        try:
+            # Try to parse in '%Y-%m-%d' format first
+            parsed_date = datetime.datetime.strptime(date.strip(), "%Y-%m-%d")
+        except ValueError:
+            try:
+                # If the first format fails, try '%d-%b-%Y' format
+                parsed_date = datetime.datetime.strptime(date.strip(), "%d-%b-%Y")
+            except ValueError:
+                # If both formats fail, skip the line
+                continue
+        
+        if parsed_date.weekday() == 2:  # Wednesday is day 2
+            count += 1
     
     with open("data/dates-wednesdays.txt", "w") as f:
         f.write(str(count))
