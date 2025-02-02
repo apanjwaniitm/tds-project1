@@ -42,3 +42,35 @@ async def read_file(path: str):
         raise HTTPException(status_code=404, detail="File not found")
     with open(path, "r") as f:
         return {"content": f.read()}
+
+@app.post("/process")
+async def run_process_task(path: str):
+    try:
+        result = process_data(path)
+        return {"message": "File processed successfully", "data": result}
+    except PermissionError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+@app.post("/delete")
+async def run_delete_task(path: str):
+    try:
+        delete_data(path)
+        return {"message": "File deletion blocked"}
+    except PermissionError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+@app.post("/process")
+async def run_process_task(path: str):
+    try:
+        result = process_data(path)
+        return {"message": "File processed successfully", "data": result}
+    except PermissionError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+@app.post("/delete")
+async def run_delete_task(path: str):
+    try:
+        delete_data(path)
+        return {"message": "File deletion blocked"}
+    except PermissionError as e:
+        raise HTTPException(status_code=403, detail=str(e))
