@@ -14,7 +14,7 @@ import datetime
 
 def count_wednesdays():
     """Counts the number of Wednesdays in /data/dates.txt and writes the result to /data/dates-wednesdays.txt."""
-    with open(r"C:\Users\aakan\tds-project1\tds-project1\data\dates.txt", "r") as f:
+    with open(r"C:\Users\aakan\tds-project1\data\dates.txt", "r") as f:
         dates = f.readlines()
     
     count = 0
