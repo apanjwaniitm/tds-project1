@@ -7,3 +7,5 @@ sentence-transformers
 requests
 gitpython
 beautifulsoup4
+os
+shutil
