@@ -24,7 +24,15 @@ async def run_task(task: str):
         "extract_email_sender": extract_email_sender,
         "extract_credit_card": extract_credit_card,
         "find_similar_comments": find_similar_comments,
-        "compute_gold_sales": compute_gold_sales
+        "compute_gold_sales": compute_gold_sales,
+        "fetch_data_from_api": fetch_data_from_api,
+        "clone_and_commit": clone_and_commit,
+        "run_sql_query": run_sql_query,
+        "scrape_website": scrape_website,
+        "resize_image": resize_image,
+        "transcribe_audio": transcribe_audio,
+        "markdown_to_html": markdown_to_html,
+        "filter_csv": filter_csv
     }
 
     if task in task_map:
