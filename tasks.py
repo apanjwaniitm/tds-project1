@@ -8,8 +8,8 @@ import subprocess
 
 def format_markdown():
     # Ensure the file path is correct
-    markdown_file_path = r"C:\Users\aakan\tds-project1\data\format.md"
-    
+    markdown_file_path = os.path.join("data", "format.md")
+
     # Check if the markdown file exists
     if not os.path.exists(markdown_file_path):
         raise FileNotFoundError(f"The file at {markdown_file_path} does not exist.")
@@ -31,7 +31,8 @@ import datetime
 
 def count_wednesdays():
     """Counts the number of Wednesdays in /data/dates.txt and writes the result to /data/dates-wednesdays.txt."""
-    with open(r"C:\Users\aakan\tds-project1\data\dates.txt", "r") as f:
+    dates_file = os.path.join("data", "dates.txt")
+    with open(dates_file, "r") as f:
         dates = f.readlines()
     
     count = 0
@@ -60,7 +61,9 @@ import json
 
 def sort_contacts():
     """Sorts contacts.json by last_name, then first_name and saves to contacts-sorted.json."""
-    with open(r"C:\Users\aakan\tds-project1\data\contacts.json", "r") as f:
+    contacts_file = os.path.join("data","contacts.json")
+    sorted_contacts_file = os.path.join("data","contacts-sorted.json")
+    with open(contacts_file, "r") as f:
         contacts = json.load(f)
     
     sorted_contacts = sorted(contacts, key=lambda x: (x["last_name"], x["first_name"]))
@@ -75,7 +78,7 @@ import os
 
 def extract_recent_logs():
     """Writes the first line of the 10 most recent .log files in /data/logs/ to /data/logs-recent.txt."""
-    log_dir = r"C:\Users\aakan\tds-project1\data\logs\\"
+    log_dir = os.path.join("data","logs")
     log_files = sorted(
         [f for f in os.listdir(log_dir) if f.endswith(".log")],
         key=lambda x: os.path.getmtime(os.path.join(log_dir, x)),
@@ -96,7 +99,8 @@ import re
 def index_markdown_titles():
     """Creates index.json mapping filenames to their first H1 title."""
     index = {}
-    docs_dir = r"C:\Users\aakan\tds-project1\data\docs\\"
+    docs_dir = os.path.join("data","docs")
+    index_file = os.path.join("data","docs","index.json")
 
     for file in os.listdir(docs_dir):
         if file.endswith(".md"):
@@ -117,7 +121,8 @@ import os
 
 def extract_email_sender():
     """Extracts sender email from data/email.txt using GPT-4o-Mini."""
-    with open(r"C:\Users\aakan\tds-project1\data\email.txt", "r") as f:
+    email_file = os.path.join("data","email.txt")
+    with open(email_file, "r") as f:
         email_content = f.read()
 
     openai.api_key = os.environ["AIPROXY_TOKEN"]
@@ -140,7 +145,8 @@ import pytesseract
 
 def extract_credit_card():
     """Extracts credit card number from data/credit-card.png using OCR."""
-    image = Image.open(r"C:\Users\aakan\tds-project1\data\credit_card.png")
+    credit_card_image = os.path.join("data","credit-card.png")
+    image = Image.open(credit_card_image)
     card_number = pytesseract.image_to_string(image).replace(" ", "").strip()
 
     with open("data/credit-card.txt", "w") as f:
@@ -154,8 +160,9 @@ from sentence_transformers import SentenceTransformer, util
 def find_similar_comments():
     """Finds the most similar pair of comments from data/comments.txt."""
     model = SentenceTransformer("all-MiniLM-L6-v2")
-    
-    with open(r"C:\Users\aakan\tds-project1\data\comments.txt", "r") as f:
+
+    comments_file = os.path.join("data","comments.txt")
+    with open(comments_file, "r") as f:
         comments = f.readlines()
     
     embeddings = model.encode(comments, convert_to_tensor=True)
@@ -180,7 +187,8 @@ import sqlite3
 
 def compute_gold_sales():
     """Computes total sales for Gold tickets in ticket-sales.db."""
-    conn = sqlite3.connect(r"C:\Users\aakan\tds-project1\data\ticket-sales.db")
+    db_path = os.path.join("data","ticket-sales.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     cursor.execute("SELECT SUM(units * price) FROM tickets WHERE type = 'Gold'")
