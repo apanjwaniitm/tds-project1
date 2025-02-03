@@ -14,6 +14,7 @@ app = FastAPI()
 
 @app.post("/run")
 async def run_task(task: str):
+    """Parses the task description and executes the closest matching function."""
     task_map = {
         "format_markdown": format_markdown,
         "count_wednesdays": count_wednesdays,
@@ -23,18 +24,28 @@ async def run_task(task: str):
         "extract_email_sender": extract_email_sender,
         "extract_credit_card": extract_credit_card,
         "find_similar_comments": find_similar_comments,
-        "compute_gold_sales": compute_gold_sales,
-        "fetch_data_from_api": fetch_data_from_api,
-        "clone_and_commit": clone_and_commit,
-        "run_sql_query": run_sql_query,
-        "scrape_website": scrape_website
+        "compute_gold_sales": compute_gold_sales
     }
 
     if task in task_map:
-        result = task_map[task]()
-        return {"message": result}
+        return {"message": task_map[task]()}
+
+    # Use AI to find the closest matching task
+    openai.api_key = os.environ["AIPROXY_TOKEN"]
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "Identify the correct function name from this list: " + str(list(task_map.keys()))},
+            {"role": "user", "content": f"Task description: {task}"}
+        ]
+    )
+
+    predicted_task = response["choices"][0]["message"]["content"].strip()
+
+    if predicted_task in task_map:
+        return {"message": task_map[predicted_task]()}
     
-    return {"error": "Unknown task"}
+    return {"error": "Could not understand the task"}
 
 @app.get("/read")
 async def read_file(path: str):
