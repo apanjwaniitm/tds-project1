@@ -14,12 +14,9 @@ def format_markdown():
     if not os.path.exists(markdown_file_path):
         raise FileNotFoundError(f"The file at {markdown_file_path} does not exist.")
 
-    # Ensure the full path to npx is used if necessary
-    npx_path = r"C:\Program Files\nodejs\npx.cmd"  # Modify if your npx is located elsewhere
-
     try:
         # Run the npx command using subprocess and the full path to npx
-        subprocess.run([npx_path, "prettier@3.4.2", "--write", markdown_file_path], check=True)
+        subprocess.run(["npx", "prettier@3.4.2", "--write", markdown_file_path], check=True)
         print(f"Markdown file at {markdown_file_path} has been formatted successfully.")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while formatting the markdown file: {e}")
