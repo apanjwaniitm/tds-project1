@@ -1,20 +1,20 @@
-# Use an official Python runtime as a parent image
+# Use a lightweight Python image
 FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container
+# Copy only requirements first (to cache dependencies)
 COPY requirements.txt .
 
-# Install dependencies
+# Install dependencies before copying the rest of the files
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the code
+# Now copy the rest of the application code
 COPY . .
 
-# Expose port 8000 for the API to be accessible
+# Expose API port
 EXPOSE 8000
 
-# Run the FastAPI app using Uvicorn (ASGI server)
+# Run FastAPI server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
