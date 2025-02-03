@@ -8,7 +8,7 @@ import shutil
 # Task B1: Enforce data access within /data only
 def is_within_data_directory(path: str) -> bool:
     """Checks if the given path is within the /data directory."""
-    base_data_dir = r"C:\Users\aakan\tds-project1\data"
+    base_data_dir = os.path.abspath("data")
     abs_path = os.path.abspath(path)
     return abs_path.startswith(base_data_dir)
 
@@ -86,3 +86,48 @@ def scrape_website(url):
             return "Failed to scrape website"
     except Exception as e:
         return f"Error scraping website: {e}"
+
+# Task B7: Compress or resize an image
+from PIL import Image
+
+def resize_image(image_path, output_path, width, height):
+    image = Image.open(image_path)
+    image = image.resize((width, height))
+    image.save(output_path)
+    return "Image resized successfully"
+
+# Task B8: Transcribe audio from an MP3 file
+import speech_recognition as sr
+
+def transcribe_audio(mp3_path):
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(mp3_path) as source:
+        audio = recognizer.record(source)
+    text = recognizer.recognize_google(audio)
+    
+    with open("data/audio-transcription.txt", "w") as f:
+        f.write(text)
+    
+    return "Audio transcribed successfully"
+
+# Task B9: Convert Markdown to HTML
+import markdown
+
+def markdown_to_html(md_path, html_path):
+    with open(md_path, "r") as f:
+        md_content = f.read()
+    
+    html_content = markdown.markdown(md_content)
+    
+    with open(html_path, "w") as f:
+        f.write(html_content)
+    
+    return "Markdown converted to HTML"
+
+# Task B10: Filter a CSV file and return JSON data
+import pandas as pd
+
+def filter_csv(csv_path, column, value):
+    df = pd.read_csv(csv_path)
+    filtered_df = df[df[column] == value]
+    return filtered_df.to_json(orient="records")
