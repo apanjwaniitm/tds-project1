@@ -42,16 +42,16 @@ async def run_task(task: str):
         return {"message": task_map[task]()}
 
     # Use AI to find the closest matching task
-    openai.api_key = os.environ["AIPROXY_TOKEN"]
-    response = openai.ChatCompletion.create(
+    client = openai.OpenAI(api_key=os.getenv("AIPROXY_TOKEN"))
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "Identify the correct function name from this list: " + str(list(task_map.keys()))},
             {"role": "user", "content": f"Task description: {task}"}
         ]
-    ).choices[0].message.content.strip()
+    )
 
-    predicted_task = response["choices"][0]["message"]["content"].strip()
+    predicted_task = response.choices[0].message.content.strip()
 
     if predicted_task in task_map:
         return {"message": task_map[predicted_task]()}
