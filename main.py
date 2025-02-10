@@ -46,7 +46,7 @@ async def run_task(task: str):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "Identify the correct function name from this list: " + str(list(task_map.keys()))},
+            {"role": "system", "content": "Your task is to return ONLY ONE function name from this list: " + str(list(task_map.keys()))},
             {"role": "user", "content": f"Task description: {task}"}
         ]
     )
