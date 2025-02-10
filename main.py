@@ -1,5 +1,5 @@
 from tasks import (
-    format_markdown, count_wednesdays, sort_contacts,
+    generate_data, format_markdown, count_wednesdays, sort_contacts,
     extract_recent_logs, index_markdown_titles, extract_email_sender,
     extract_credit_card, find_similar_comments, compute_gold_sales
 )
