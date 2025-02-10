@@ -10,6 +10,7 @@ from phaseB_tasks import (
 
 from fastapi import FastAPI, HTTPException
 import os
+import openai
 
 app = FastAPI()
 
