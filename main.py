@@ -49,7 +49,7 @@ async def run_task(task: str):
             {"role": "system", "content": "Identify the correct function name from this list: " + str(list(task_map.keys()))},
             {"role": "user", "content": f"Task description: {task}"}
         ]
-    )
+    ).choices[0].message.content.strip()
 
     predicted_task = response["choices"][0]["message"]["content"].strip()
 
