@@ -17,6 +17,7 @@ app = FastAPI()
 async def run_task(task: str):
     """Parses the task description and executes the closest matching function."""
     task_map = {
+        "generate_data": generate_data,
         "format_markdown": format_markdown,
         "count_wednesdays": count_wednesdays,
         "sort_contacts": sort_contacts,
