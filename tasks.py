@@ -3,6 +3,18 @@ import openai
 
 openai.api_key = os.getenv("AIPROXY_TOKEN")
 
+import subprocess
+
+def generate_data():
+    """Installs uv if required and runs datagen.py with the user's email."""
+    email = "24f1000189@ds.study.iitm.ac.in"
+    try:
+        subprocess.run(["pip", "install", "uv"], check=True)
+        subprocess.run(["python", "-m", "uv", "https://raw.githubusercontent.com/sanand0/tools-in-data-science-public/tds-2025-01/project-1/datagen.py", email], check=True)
+        return "Data generation completed successfully."
+    except subprocess.CalledProcessError as e:
+        return f"Error in data generation: {e}"
+
 # Task A2: Format Markdown files using Prettier
 import subprocess
 
