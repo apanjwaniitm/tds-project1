@@ -42,6 +42,7 @@ async def run_task(task: str):
         return {"message": task_map[task]()}
 
     # Use AI to find the closest matching task
+    openai.api_base = "https://aiproxy.sanand.workers.dev/"
     client = openai.OpenAI(api_key=os.getenv("AIPROXY_TOKEN"))
     response = client.chat.completions.create(
         model="gpt-4o-mini",
