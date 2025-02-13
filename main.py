@@ -11,6 +11,7 @@ from phaseB_tasks import (
 from fastapi import FastAPI, HTTPException
 import os
 import openai
+import uvicorn
 
 app = FastAPI()
 
