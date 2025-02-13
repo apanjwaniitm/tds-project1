@@ -1,7 +1,7 @@
 import os
 import openai
 
-openai.api_base = "https://aiproxy.sanand.workers.dev/"
+openai.api_base = "https://aiproxy.sanand.workers.dev/openai/"
 openai.api_key = os.getenv("AIPROXY_TOKEN")
 
 import subprocess
