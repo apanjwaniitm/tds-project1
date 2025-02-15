@@ -1,5 +1,5 @@
 import requests
-from git import Repo
+import subprocess
 import sqlite3
 from bs4 import BeautifulSoup
 import os
@@ -52,15 +52,24 @@ def fetch_data_from_api(url, save_path):
         return f"Error fetching data: {e}"
 
 # Task B4: Clone Git Repo and Commit
-def clone_and_commit(repo_url, local_path, commit_message):
+def clone_and_commit(repo_url, local_path="data/repo", commit_message="Auto commit"):
+    """Clones a Git repository and commits changes using shell commands."""
     try:
-        repo = Repo.clone_from(repo_url, local_path)
-        repo.git.add(A=True)
-        repo.index.commit(commit_message)
-        repo.remote().push()
+        # Clone the repo
+        subprocess.run(["git", "clone", repo_url, local_path], check=True)
+
+        # Add all files
+        subprocess.run(["git", "-C", local_path, "add", "."], check=True)
+
+        # Commit changes
+        subprocess.run(["git", "-C", local_path, "commit", "-m", commit_message], check=True)
+
+        # Push to remote
+        subprocess.run(["git", "-C", local_path, "push"], check=True)
+
         return "Git repo cloned and committed successfully"
-    except Exception as e:
-        return f"Error with Git operation: {e}"
+    except subprocess.CalledProcessError as e:
+        return f"Error: {e}"
 
 # Task B5: Run SQL Query
 def run_sql_query(db_path, query):
