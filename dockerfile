@@ -1,8 +1,11 @@
 # Use a lightweight base image
-FROM python:3.9-slim AS builder
+FROM python:3.9-slim
+
+# Ensure the container runs as root
+USER root
 
 # Install system dependencies (including Git)
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git bash && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -13,22 +16,14 @@ COPY requirements.txt .
 RUN python -m venv /opt/venv && \
     /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Use final minimal image
-FROM python:3.9-slim
-
-# Install Git again in final image (required for GitPython)
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Copy installed dependencies from builder stage
-COPY --from=builder /opt/venv /opt/venv
-
 # Copy source code
 COPY main.py phaseB_tasks.py tasks.py /app/
 
 # Set environment variables to use venv
 ENV PATH="/opt/venv/bin:$PATH"
+
+# Verify Git is installed
+RUN git --version
 
 # Expose API port
 EXPOSE 8000
