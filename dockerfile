@@ -1,32 +1,17 @@
-# Use a lightweight base image
-FROM python:3.9-slim
+FROM python:3.11
 
-# Ensure the container runs as root
-USER root
+# Install git
+RUN apt-get update && apt-get install -y git
 
-# Install system dependencies (including Git)
-RUN apt-get update && apt-get install -y git bash && rm -rf /var/lib/apt/lists/*
-
+# Set work directory
 WORKDIR /app
 
-# Copy only necessary files to speed up build
+# Copy requirements and install dependencies
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dependencies in a virtual environment for size optimization
-RUN python -m venv /opt/venv && \
-    /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+# Copy application code
+COPY main.py phaseB_tasks.py tasks.py requirements.txt /app/
 
-# Copy source code
-COPY main.py phaseB_tasks.py tasks.py /app/
-
-# Set environment variables to use venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Verify Git is installed
-RUN git --version
-
-# Expose API port
-EXPOSE 8000
-
-# Start the API
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
